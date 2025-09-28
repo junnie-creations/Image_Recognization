@@ -82,7 +82,7 @@ The model is a sequential CNN built using the Keras Sequential API.
 | Dense       | Fully Connected  | 128           | relu       | -                          |
 | Dropout     | Regularization   | 128           | -          | Rate 0.5                   |
 | Dense       | Output           | 1             | sigmoid    | -                          |
-|------------------------------------------------------------------------------------------|
+--------------------------------------------------------------------------------------------
 ---
 
 ## 🚀 Training
