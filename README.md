@@ -1,137 +1,128 @@
 # Image_Recognization
 The Fruit vs Flower Image Classification project uses TensorFlow/Keras and CNNs to classify images into fruits or flowers. Images are preprocessed, labeled, and trained on a deep learning model with convolution, pooling, and dense layers. The trained model is saved for future predictions.
 
-# 🍒 Fruit-Flower Image Classification CNN 🌸
+# Fruit vs Flower Image Classification
+
+This project is a **binary image classification model** built using **TensorFlow / Keras**.  
+It classifies images into **fruits (label = 0)** or **flowers (label = 1)**.
+
 ---
-This project implements a Convolutional Neural Network (CNN) using TensorFlow/Keras and OpenCV (cv2) to perform binary classification on image data (Fruits vs. Flowers). It is an excellent, self-contained project for building a profile in AI/ML and deep learning.
 
-# 📖 Project Report
----
-1. Introduction
-This project focuses on building and training a simple yet effective CNN for image classification. The goal is to accurately distinguish between two classes of images: "Fruit" and "Flower". The script handles all necessary steps, from recursively loading images from disk and preprocessing them, to defining, compiling, and fitting the deep learning model.
+## 📂 Dataset
+The dataset should be organized into two separate folders:
 
-# 2. Project Goals
----
-✅ Implement efficient data loading and preprocessing using os and cv2.
-
-✅ Define a robust CNN architecture suitable for small image datasets.
-
-✅ Train the classification model using labeled data.
-
-✅ Serialize and save the trained model (.h5 format) for future inference.
-
-✅ Demonstrate fundamental deep learning practices for computer vision.
-
-3. Technology Stack
+```text
+datasets/
+│── fruits/   # contains fruit images
+│── flowers/  # contains flower images
 ```
-Core Language: Python 3.x
 
-Deep Learning Framework: TensorFlow / Keras
+Update the dataset paths in the code:
 
-Image Processing: OpenCV (cv2)
-
-Numerical Computing: NumPy
-
-OS Interaction: os
-
-```
----
-
-# 4. \text{Features & Functionality}
-🖼️ Image Preprocessing
-Data Loading: Recursively loads all images from the specified fruit and flower directories.
-Resizing: Standardizes all input images to a fixed size of (150,150) pixels.
-Normalization: Converts image data to NumPy arrays of type float32 (though explicit normalization to [0,1] is recommended after this step, which you can add as a refinement).
-
----
-
-#🏗️ CNN Architecture
-Layers: Uses three Conv2D layers followed by MaxPooling2D layers to progressively extract features.
-Regularization: Includes a Dropout layer (rate 0.5) before the output layer to mitigate overfitting.
-Output: A final Dense layer with a sigmoid activation function for binary classification.
-
-⚙️ Model Training
-Optimizer: Adam optimizer with a learning rate of 0.001.
-Loss Function: Binary Crossentropy is used, appropriate for a two-class problem.
-Training: The model is trained for 15 epochs with a batch_size of 32.
-
-5. Code Overview
-🧠 CNN Architecture Definition
-The core of the model uses a standard Conv-Pool pattern:
-
-model = Sequential([
-    Conv2D(32,(3,3), activation = "relu", input_shape=(150,150,3)),
-    MaxPooling2D(2,2),
-    Conv2D(64,(3,3)),
-    MaxPooling2D(2,2),
-    Conv2D(128,(3,3)),
-    MaxPooling2D(2,2),
-    Flatten(),
-    Dense(128, activation = "relu"),
-    Dropout(0.5),
-    Dense(1,activation="sigmoid") # Binary classification output
-])
-
-💾 Key File Operations
-The script loads data and saves the final model to specific paths:
-
-# Data Loading Paths (MUST BE UPDATED BY USER)
+```python
 fruit_dir = r"D:\coderun\AIML\datasets\fruits"
 flower_dir = r"D:\coderun\AIML\datasets\flowers"
+```
 
-# Model Saving Path (MUST BE UPDATED BY USER)
-model.save(r"D:\coderun\AIML\model\classification_model.h5")
+---
 
-🛠️ Getting Started
-1. Clone Repository
-git clone <repository-url>
-cd fruit-flower-classifier
+## ⚙️ Requirements
+Install the required libraries before running:
 
-2. Install Dependencies
-This project requires TensorFlow/Keras, OpenCV, and NumPy.
+```bash
+pip install tensorflow opencv-python numpy
+```
 
-pip install tensorflow keras opencv-python numpy
+---
 
-3. Setup Data Directories
-Create two directories containing your images, for example:
+## 🧾 Model Architecture
+The CNN architecture used:
 
-datasets/
-├── fruits/
-│   └── apple.jpg
-│   └── banana.jpg
-├── flowers/
-│   └── rose.jpg
-│   └── tulip.jpg
+- **Conv2D + MaxPooling2D** layers for feature extraction  
+- **Flatten + Dense (ReLU)** for learning patterns  
+- **Dropout (0.5)** for regularization  
+- **Dense (Sigmoid)** output layer for binary classification  
 
-CRITICAL: You must update the fruit_dir and flower_dir variables in the Python script to match the absolute paths on your system.
+Example model snippet:
 
-4. Run Training Script
-Execute the Python script to start the training process. The model will be saved once training is complete.
+```python
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 
-python your_script_name.py
+model = Sequential([
+    Conv2D(32, (3,3), activation="relu", input_shape=(150,150,3)),
+    MaxPooling2D(2,2),
 
-📂 Project Structure
-fruit-flower-classifier/
-│── your_script_name.py     # Main CNN definition and training script
-│── datasets/                # Image data folder (must be created)
-│   ├── fruits/              # Contains fruit images (Label 0)
-│   └── flowers/             # Contains flower images (Label 1)
-│── model/                   # Output directory for saved model
-│   └── classification_model.h5
-│── README.md                # Project documentation
+    Conv2D(64, (3,3)),
+    MaxPooling2D(2,2),
 
-🤝 Contributing
-Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
+    Conv2D(128, (3,3)),
+    MaxPooling2D(2,2),
 
-Fork the Project
+    Flatten(),
+    Dense(128, activation="relu"),
+    Dropout(0.5),
+    Dense(1, activation="sigmoid")
+])
+```
 
-Create your Feature Branch (git checkout -b feature/AmazingFeature)
+---
 
-Commit your Changes (git commit -m 'Add some AmazingFeature')
+## 🚀 Training
+Run the script to:
 
-Push to the Branch (git push origin feature/AmazingFeature)
+1. Load and preprocess images (resized to **150×150**).  
+2. Assign labels (**0 for fruits, 1 for flowers**).  
+3. Train the CNN model for **15 epochs**.
 
-Open a Pull Request
+Training command in script:
 
-📜 License
-This project is licensed under the MIT License.
+```python
+history = model.fit(x, y, epochs=15, batch_size=32, shuffle=True)
+```
+
+---
+
+## 💾 Saving & Loading the Model
+The trained model is saved as:
+
+```text
+D:\coderun\AIML\model\classification_model.h5
+```
+
+Load it later with:
+
+```python
+from tensorflow.keras.models import load_model
+model = load_model(r"D:\coderun\AIML\model\classification_model.h5")
+```
+
+---
+
+## 📊 Output
+During training, you will see:
+
+- Dataset shape (number of images, resized dimensions)  
+- Training accuracy & loss per epoch
+
+Example output:
+
+```text
+Dataset loaded (500, 150, 150, 3) (500,)
+Epoch 1/15 ...
+Epoch 15/15 ...
+```
+
+---
+
+## ✅ Future Improvements
+- Add validation/test split (train/val/test)  
+- Use `ImageDataGenerator` or `tf.data` for augmentation & pipeline  
+- Support multi-class classification (more categories)  
+- Visualize training curves (accuracy / loss)  
+- Save model checkpoints and use callbacks (EarlyStopping, ReduceLROnPlateau)
+
+---
+
+## 👨‍💻 Author
+Developed as part of an **Image Classification** practice project in Python.
