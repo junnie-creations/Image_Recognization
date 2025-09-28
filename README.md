@@ -65,7 +65,24 @@ model = Sequential([
     Dense(1, activation="sigmoid")
 ])
 ```
+## 🏗 Model Architecture
 
+The model is a sequential CNN built using the Keras Sequential API.
+
+--------------------------------------------------------------------------------------------
+| Layer        | Type              | Output Shape   | Activation | Notes                   |
+|-------------|-----------------|---------------|------------|-----------------------------|
+| Conv2D      | Convolution      | (150,150,32)  | relu       | Input shape: (150, 150, 3) |
+| MaxPooling2D| Pooling          | (75,75,32)    | -          | Pool size (2, 2)           |
+| Conv2D      | Convolution      | (73,73,64)    | relu       | -                          |
+| MaxPooling2D| Pooling          | (36,36,64)    | -          | Pool size (2, 2)           |
+| Conv2D      | Convolution      | (34,34,128)   | relu       | -                          |
+| MaxPooling2D| Pooling          | (17,17,128)   | -          | Pool size (2, 2)           |
+| Flatten     | Flatten          | Vector        | -          | Prepares for Dense layers  |
+| Dense       | Fully Connected  | 128           | relu       | -                          |
+| Dropout     | Regularization   | 128           | -          | Rate 0.5                   |
+| Dense       | Output           | 1             | sigmoid    | -                          |
+|------------------------------------------------------------------------------------------|
 ---
 
 ## 🚀 Training
@@ -87,14 +104,14 @@ history = model.fit(x, y, epochs=15, batch_size=32, shuffle=True)
 The trained model is saved as:
 
 ```text
-D:\coderun\AIML\model\classification_model.h5
+D:\<you_folder_name>\model\classification_model.h5
 ```
 
 Load it later with:
 
 ```python
 from tensorflow.keras.models import load_model
-model = load_model(r"D:\coderun\AIML\model\classification_model.h5")
+model = load_model(r"D:\<your_folder_name>\classification_model.h5")
 ```
 
 ---
